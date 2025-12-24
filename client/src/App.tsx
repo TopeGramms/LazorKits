@@ -7,12 +7,6 @@ import { Layout } from "@/components/layout";
 import Home from "@/pages/home";
 import WalletPage from "@/pages/wallet";
 import NotFound from "@/pages/not-found";
-import { Buffer } from "buffer";
-
-// Polyfill Buffer for Solana web3.js
-if (typeof window !== "undefined") {
-  window.Buffer = Buffer;
-}
 
 function Router() {
   return (
