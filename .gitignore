@@ -40,6 +40,9 @@ tmp
 # Server public (if generated)
 server/public
 
+# Vercel
+.vercel
+
 # Replit files
 .replit
 .local
