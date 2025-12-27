@@ -1,13 +1,61 @@
-# Passkey Solana Starter (LazorKit)
+# LazorKit Passkey Starter
 
-This starter is built for hackathons and demos: you can clone it, plug in your own RPC/Paymaster if needed, and have a passkey-based Solana wallet with gasless Devnet transactions running in a few minutes. The goal is to be more "copy-paste friendly" than a full-blown boilerplate.
+**A minimal, production-ready starter for building passkey-based Solana apps using LazorKit.**
 
-It demonstrates how to use the **LazorKit Wallet SDK** to:
+This repository demonstrates how to integrate the **LazorKit Wallet SDK** to create smart wallets with passkeys (WebAuthn) and send **gasless transactions on Solana Devnet** — without browser extensions or seed phrases.
 
-- **Create / connect a smart wallet with passkeys** (WebAuthn, no browser extension or seed phrase)
-- **Send a gasless transaction on Solana Devnet** using LazorKit's paymaster
+![License](https://img.shields.io/badge/license-MIT-blue.svg)
+![TypeScript](https://img.shields.io/badge/TypeScript-5.6-blue)
+![React](https://img.shields.io/badge/React-18.3-blue)
+![Solana](https://img.shields.io/badge/Solana-Devnet-purple)
 
-The frontend is built with **React + Vite + TypeScript**, but the structure mirrors what you'd use in a Next.js app (`components`, `lib`, etc.) so you can easily migrate.
+**Live Demo:** Solana Devnet  
+**License:** MIT
+
+---
+
+## What is LazorKit?
+
+LazorKit is an open-source passkey wallet SDK for Solana that removes the biggest UX barriers in blockchain applications.
+
+| Traditional Solana UX | With LazorKit |
+|-----------------------|---------------|
+| Seed phrases          | Face ID / Touch ID |
+| Wallet extensions     | In-browser only |
+| Users pay gas         | Gasless via paymaster |
+| Manual setup          | One-click wallet creation |
+
+This starter shows **practical integration patterns** you can reuse immediately.
+
+---
+
+## Why This Starter Exists
+
+Most Solana examples fall into one of two traps:
+- Too basic to be useful
+- Too complex to learn from quickly
+
+This project sits in the middle.
+
+The goal is to provide a **clear, copy-paste-friendly reference implementation** that demonstrates:
+
+- Passkey authentication using WebAuthn  
+- Smart wallet creation and reconnection  
+- Gasless transactions via LazorKit paymaster  
+- A simple UI that keeps focus on the integration  
+
+This is **not a full product** — it's a starter and learning reference.
+
+---
+
+## Features
+
+- ✅ **Passkey-based wallet creation** (Face ID / Touch ID / biometrics)
+- ✅ **Smart wallet on Solana Devnet**
+- ✅ **Gasless transactions** sponsored by paymaster
+- ✅ **Session persistence** across refresh
+- ✅ **Clean, modular project structure**
+- ✅ **Easy to adapt** for Next.js or other frameworks
 
 ---
 
@@ -21,84 +69,174 @@ npm install
 npm run dev
 ```
 
-Then open the printed URL in your browser, click "Connect with Passkey" on the home page, and you'll be taken to the wallet dashboard where you can fire a gasless Devnet transaction.
+Then open the printed URL in your browser, click **"Connect with Passkey"** on the home page, and you'll be taken to the wallet dashboard where you can fire a gasless Devnet transaction.
 
 ---
 
-## Key Pieces
+## Project Structure
 
-- **`client/src/lib/lazorkit.ts`**
-  - Central place for LazorKit configuration:
-    - `rpcUrl` (Solana Devnet endpoint)
-    - `portalUrl` (LazorKit hosted passkey UI)
-    - `paymasterConfig.paymasterUrl` (for gasless tx sponsorship)
-  - Imported in `App.tsx` and spread into `LazorkitProvider`.
+```
+Passkey-Solana-Kit-1/
+├── client/
+│   ├── src/
+│   │   ├── components/
+│   │   │   ├── passkey-login.tsx    # Passkey authentication button
+│   │   │   ├── send-usdc.tsx        # Gasless transaction demo
+│   │   │   ├── wallet-status.tsx    # Wallet info display
+│   │   │   └── ui/                  # shadcn/ui components
+│   │   ├── lib/
+│   │   │   └── lazorkit.ts          # LazorKit configuration
+│   │   ├── pages/
+│   │   │   ├── home.tsx             # Landing page
+│   │   │   └── wallet.tsx           # Wallet dashboard
+│   │   └── App.tsx                  # Root component
+│   └── index.html
+├── server/                           # Express backend
+└── package.json
+```
 
-- **`client/src/components/passkey-login.tsx` (`PasskeyLogin`)**
-  - Single button that triggers LazorKit's passkey flow and sends the user to `/wallet` when they're connected.
-  - Calls `useWallet().connect()` from `@lazorkit/wallet` - that's pretty much it.
-  - You can drop this component anywhere in your app as the entry point for wallet creation/login.
+### Key Files
 
-- **`client/src/components/send-usdc.tsx` (`SendUsdc`)**
-  - Demonstrates a **gasless transaction** by sending a Memo instruction (for the demo we use Memo instead of moving real tokens).
-  - Uses `signAndSendTransaction` which routes through LazorKit's paymaster so the user doesn't need SOL for fees.
-  - Shows status, error messages, and a link to Solana Explorer on success. Swap out the Memo instruction with an SPL transfer if you want a "real" token flow.
+**`client/src/lib/lazorkit.ts`**
+- Central configuration for LazorKit SDK
+- Single place to update RPC URL, portal URL, and paymaster settings
+- Exported as `lazorkitConfig` and spread into `LazorkitProvider`
 
-- **`client/src/components/wallet-status.tsx` (`WalletStatus`)**
-  - Displays the connected smart wallet address and lets the user copy or disconnect.
-  - Used on the `/wallet` page alongside `SendUsdc`.
+**`client/src/components/passkey-login.tsx`**
+- Simple button component that triggers wallet creation/connection
+- Uses `useWallet().connect()` from `@lazorkit/wallet`
+- Automatically redirects to `/wallet` on successful connection
 
-- **Routing / Layout**
-  - `client/src/App.tsx` wires:
-    - `QueryClientProvider` (React Query)
-    - `LazorkitProvider` (configured via `lazorkitConfig`)
-    - `Layout` + `wouter` routes for:
-      - `/` → `Home` (shows `PasskeyLogin`)
-      - `/wallet` → `WalletPage` (shows `WalletStatus` + `SendUsdc`)
-      - Fallback → `NotFound`
+**`client/src/components/send-usdc.tsx`**
+- Demonstrates gasless transaction flow
+- Sends a Memo instruction (swap for SPL transfer in production)
+- Uses `signAndSendTransaction` with paymaster sponsorship
 
----
-
-## How It Works (End‑to‑End)
-
-1. **App bootstraps providers**
-   - `main.tsx` renders `App`, which wraps everything with `QueryClientProvider` and `LazorkitProvider {...lazorkitConfig}`.
-   - Once that's set up, LazorKit has access to your RPC, portal, and paymaster configuration.
-
-2. **User connects via passkey**
-   - On `/`, the `Home` page renders `PasskeyLogin`.
-   - Clicking the button calls `connect()` from `useWallet()`.
-   - LazorKit opens its passkey UI (hosted at `portalUrl`) and handles wallet creation / login.
-   - Once `isConnected` is true, `PasskeyLogin` automatically redirects to `/wallet`.
-
-3. **Wallet dashboard**
-   - `/wallet` shows:
-     - `WalletStatus` - displays the smart wallet address and lets you copy/disconnect.
-     - `SendUsdc` - runs a sample gasless transaction.
-
-4. **Gasless transaction**
-   - `SendUsdc` builds a **Memo instruction** and calls `signAndSendTransaction(instruction)`.
-   - LazorKit routes this through the configured paymaster (`paymasterUrl`), which sponsors the fees.
-   - On success, you'll see the transaction signature with a link to Solana Explorer (Devnet).
+**`client/src/components/wallet-status.tsx`**
+- Displays connected wallet address
+- Copy address and disconnect functionality
 
 ---
 
-## Adapting This Starter
+## How It Works
 
-**Changing networks / infra**
-- Update `lazorkitConfig` in `client/src/lib/lazorkit.ts` - that's the single place where RPC URL, portal, and paymaster live. Change it there and everything else picks it up.
+### 1. App Initialization
+`main.tsx` renders `App`, which wraps the application with:
+- `QueryClientProvider` (React Query for data fetching)
+- `LazorkitProvider` with configuration from `lazorkitConfig`
 
-**Using in Next.js**
-- Move `lib/lazorkit.ts` to `app/lib/lazorkit.ts` (or `src/lib` if you use that structure).
-- Copy components from `client/src/components` into your Next.js `components` folder.
-- Wrap your root layout with `QueryClientProvider` + `LazorkitProvider {...lazorkitConfig}` just like `App.tsx` does here.
+This gives LazorKit access to your RPC endpoint, portal URL, and paymaster configuration.
 
-**Adding real token transfers**
-- Replace the Memo instruction in `SendUsdc` with an SPL token transfer or SOL transfer.
-- Keep using `signAndSendTransaction` so LazorKit + the paymaster can handle the gasless behavior.
+### 2. Passkey Authentication
+1. User visits `/` and sees the `PasskeyLogin` button
+2. Clicking triggers `useWallet().connect()`
+3. LazorKit opens its passkey UI (hosted at `portalUrl`)
+4. User authenticates with Face ID / Touch ID / device password
+5. Wallet is created or reconnected
+6. User is automatically redirected to `/wallet`
+
+### 3. Wallet Dashboard
+The `/wallet` route displays:
+- **WalletStatus**: Shows smart wallet address with copy/disconnect
+- **SendUsdc**: Button to send a gasless transaction
+
+### 4. Gasless Transaction Flow
+1. User clicks "Send Gasless Transaction"
+2. `SendUsdc` builds a transaction instruction (Memo for demo)
+3. Calls `signAndSendTransaction({ instructions: [...] })`
+4. LazorKit routes through the paymaster, which sponsors fees
+5. Transaction is signed and sent to Solana Devnet
+6. Success message shows with link to Solana Explorer
 
 ---
 
-This codebase is intentionally small and focused so you can treat it as a **reference implementation** or a **copy-pasteable starter** for your own LazorKit + Solana projects. If you run into issues or want to extend it, the structure should make it pretty straightforward to find what you need.
+## Customization
+
+### Changing Networks / Infrastructure
+
+Update `lazorkitConfig` in `client/src/lib/lazorkit.ts`:
+
+```typescript
+export const lazorkitConfig: LazorkitConfig = {
+  rpcUrl: "https://api.mainnet-beta.solana.com",  // Change to mainnet
+  portalUrl: "https://portal.lazor.sh",
+  paymasterConfig: {
+    paymasterUrl: "https://your-paymaster-url.com",  // Your paymaster
+  },
+};
+```
+
+This is the **single source of truth** — change it here and everything else picks it up.
+
+### Using in Next.js
+
+1. Move `lib/lazorkit.ts` to `app/lib/lazorkit.ts` (or `src/lib/`)
+2. Copy components from `client/src/components/` to your Next.js `components/` folder
+3. Wrap your root layout with providers:
+
+```tsx
+// app/layout.tsx
+import { QueryClientProvider } from "@tanstack/react-query";
+import { LazorkitProvider } from "@lazorkit/wallet";
+import { lazorkitConfig } from "@/lib/lazorkit";
+
+export default function RootLayout({ children }) {
+  return (
+    <html>
+      <body>
+        <QueryClientProvider client={queryClient}>
+          <LazorkitProvider {...lazorkitConfig}>
+            {children}
+          </LazorkitProvider>
+        </QueryClientProvider>
+      </body>
+    </html>
+  );
+}
+```
+
+### Adding Real Token Transfers
+
+Replace the Memo instruction in `SendUsdc` with an SPL token transfer:
+
+```typescript
+import { createTransferInstruction } from "@solana/spl-token";
+
+const transferInstruction = createTransferInstruction(
+  sourceTokenAccount,
+  destinationTokenAccount,
+  walletPublicKey,
+  amount
+);
+
+const sig = await signAndSendTransaction({
+  instructions: [transferInstruction],
+});
+```
+
+The paymaster will still sponsor the fees automatically.
+
+---
+
+## Tech Stack
+
+- **React 18** + **Vite** + **TypeScript**
+- **LazorKit Wallet SDK** (`@lazorkit/wallet`)
+- **Solana Web3.js** (`@solana/web3.js`)
+- **React Query** (`@tanstack/react-query`)
+- **shadcn/ui** components
+- **Tailwind CSS**
+
+---
+
+## Contributing
+
+This is a starter template — feel free to fork, modify, and use it for your own projects. If you find bugs or have suggestions, issues and PRs are welcome!
+
+---
+
+## License
+
+MIT © 2025 Adekalu Temitope
 
 
