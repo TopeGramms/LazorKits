@@ -36,7 +36,7 @@ export function PasskeyLogin() {
         <Fingerprint className="w-5 h-5 text-primary" />
       )}
       <span>
-        {isConnecting ? "Connecting..." : "Connect with Passkey"}
+        {isConnecting ? "Authenticating with Passkey..." : "Connect with Passkey"}
       </span>
     </button>
   );
