@@ -1,6 +1,7 @@
 import { Link, useLocation } from "wouter";
 import { Wallet, Zap, ExternalLink } from "lucide-react";
 import { useWallet } from "@lazorkit/wallet";
+import { WalletModal } from "./wallet-modal";
 
 export function Layout({ children }: { children: React.ReactNode }) {
   const [location] = useLocation();
@@ -8,6 +9,7 @@ export function Layout({ children }: { children: React.ReactNode }) {
 
   return (
     <div className="min-h-screen flex flex-col bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-slate-900 via-background to-background">
+      <WalletModal />
       <header className="sticky top-0 z-50 border-b border-white/5 bg-background/50 backdrop-blur-md">
         <div className="container mx-auto px-4 h-16 flex items-center justify-between">
           <Link href="/" className="flex items-center gap-2 group cursor-pointer">

@@ -26,17 +26,17 @@ export function PasskeyLogin() {
     <button
       onClick={handleConnect}
       disabled={isConnecting}
-      className="group relative px-8 py-4 bg-white text-black rounded-xl font-semibold text-lg shadow-[0_0_40px_-10px_rgba(255,255,255,0.3)] hover:shadow-[0_0_60px_-15px_rgba(255,255,255,0.5)] hover:-translate-y-0.5 active:translate-y-0 transition-all duration-300 flex items-center gap-3 overflow-hidden"
+      className="group relative w-full sm:w-auto px-6 sm:px-8 py-3 sm:py-4 bg-white text-black rounded-xl font-semibold text-base sm:text-lg shadow-[0_0_40px_-10px_rgba(255,255,255,0.3)] hover:shadow-[0_0_60px_-15px_rgba(255,255,255,0.5)] hover:-translate-y-0.5 active:translate-y-0 transition-all duration-300 flex items-center justify-center gap-3 overflow-hidden"
     >
       <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/50 to-transparent translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-1000" />
       
       {isConnecting ? (
-        <Loader2 className="w-5 h-5 animate-spin" />
+        <Loader2 className="w-4 sm:w-5 h-4 sm:h-5 animate-spin" />
       ) : (
-        <Fingerprint className="w-5 h-5 text-primary" />
+        <Fingerprint className="w-4 sm:w-5 h-4 sm:h-5 text-primary" />
       )}
-      <span>
-        {isConnecting ? "Authenticating with Passkey..." : "Connect with Passkey"}
+      <span className="text-sm sm:text-base">
+        {isConnecting ? "Authenticating..." : "Connect with Passkey"}
       </span>
     </button>
   );
