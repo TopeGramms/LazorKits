@@ -1,12 +1,13 @@
 import { Switch, Route } from "wouter";
 import { QueryClientProvider } from "@tanstack/react-query";
 import { queryClient } from "./lib/queryClient";
-import { Toaster } from "@/components/ui/toaster";
 import { LazorkitProvider } from "@lazorkit/wallet";
+import { Toaster } from "@/components/ui/toaster";
 import { Layout } from "@/components/layout";
 import Home from "@/pages/home";
 import WalletPage from "@/pages/wallet";
 import NotFound from "@/pages/not-found";
+import { lazorkitConfig } from "@/lib/lazorkit";
 
 function Router() {
   return (
@@ -21,13 +22,7 @@ function Router() {
 function App() {
   return (
     <QueryClientProvider client={queryClient}>
-      <LazorkitProvider
-        rpcUrl="https://api.devnet.solana.com"
-        portalUrl="https://portal.lazor.sh"
-        paymasterConfig={{
-          paymasterUrl: "https://lazorkit-paymaster.onrender.com"
-        }}
-      >
+      <LazorkitProvider {...lazorkitConfig}>
         <Layout>
           <Router />
         </Layout>

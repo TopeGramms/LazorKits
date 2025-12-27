@@ -3,6 +3,7 @@ import { Loader2, Fingerprint } from "lucide-react";
 import { useEffect } from "react";
 import { useLocation } from "wouter";
 
+// Single button that triggers LazorKit's passkey flow and redirects to /wallet when connected
 export function PasskeyLogin() {
   const { connect, isConnecting, isConnected } = useWallet();
   const [, setLocation] = useLocation();

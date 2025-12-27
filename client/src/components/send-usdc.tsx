@@ -13,15 +13,17 @@ export function SendUsdc() {
       setSignature(null);
       setError(null);
 
-      // Create a Memo instruction for the demo
-      // In a real app, this would be a Token Transfer instruction
+      // For the demo we send a Memo instruction instead of moving real tokens.
+      // Swap this out with an SPL transfer if you want a "real" token flow.
       const instruction = new TransactionInstruction({
         keys: [],
         programId: new PublicKey('Memo1UhkJRfHyvLMcVucJwxXeuD728EqVDDwQDxFMNo'),
         data: Buffer.from('Hello LazorKit Gasless!'),
       });
 
-      const sig = await signAndSendTransaction(instruction);
+      const sig = await signAndSendTransaction({
+        instructions: [instruction],
+      });
       setSignature(sig);
     } catch (err: any) {
       console.error('Transaction failed:', err);

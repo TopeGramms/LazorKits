@@ -25,7 +25,7 @@ export default function Home() {
           </p>
         </div>
 
-        <div className="pt-8 pb-12">
+        <div className="pt-8 pb-12 flex flex-col items-center">
           <PasskeyLogin />
           <p className="mt-4 text-sm text-muted-foreground">
             Powered by WebAuthn • No extension required
