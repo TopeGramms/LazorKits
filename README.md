@@ -9,7 +9,7 @@ This repository demonstrates how to integrate the **LazorKit Wallet SDK** to cre
 ![React](https://img.shields.io/badge/React-18.3-blue)
 ![Solana](https://img.shields.io/badge/Solana-Devnet-purple)
 
-**Live Demo:** Solana Devnet  
+**Live Demo:** https://lazor-kits.vercel.app/  
 **License:** MIT
 
 ---
