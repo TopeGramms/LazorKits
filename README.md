@@ -44,21 +44,19 @@ Designed to be **copy-paste friendly**, not a heavyweight boilerplate.
 ## Project Structure
 
 ```
-
 client/
-├─ src/
-│  ├─ components/
-│  │  ├─ passkey-login.tsx
-│  │  ├─ wallet-status.tsx
-│  │  └─ send-usdc.tsx
-│  ├─ lib/
-│  │  └─ lazorkit.ts
-│  ├─ pages/
-│  │  ├─ home.tsx
-│  │  └─ wallet.tsx
-│  ├─ App.tsx
-│  └─ main.tsx
-
+  src/
+    components/
+      passkey-login.tsx
+      wallet-status.tsx
+      send-usdc.tsx
+    lib/
+      lazorkit.ts
+    pages/
+      home.tsx
+      wallet.tsx
+    App.tsx
+    main.tsx
 ```
 
 ---
