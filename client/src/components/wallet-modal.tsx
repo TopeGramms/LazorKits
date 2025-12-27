@@ -24,7 +24,7 @@ export function WalletModal() {
   };
 
   return (
-    <div className="fixed top-4 right-4 left-4 z-50 sm:left-auto">
+    <div className="fixed top-4 right-4 left-4 z-40 sm:left-auto">
       {/* Closed State - Compact Button */}
       {!isOpen && (
         <button
@@ -40,7 +40,7 @@ export function WalletModal() {
 
       {/* Open State - Expanded Modal */}
       {isOpen && (
-        <div className="w-full sm:w-80 bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 border border-primary/30 rounded-2xl shadow-2xl p-4 sm:p-6 animate-in fade-in slide-in-from-top-2 duration-200 max-h-[80vh] overflow-y-auto">
+        <div className="relative z-50 w-full sm:w-80 bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 border border-primary/30 rounded-2xl shadow-2xl p-4 sm:p-6 animate-in fade-in slide-in-from-top-2 duration-200 max-h-[80vh] overflow-y-auto">
           {/* Header */}
           <div className="flex items-center justify-between mb-6">
             <div className="flex items-center gap-2">
@@ -133,7 +133,7 @@ export function WalletModal() {
       {/* Click outside to close */}
       {isOpen && (
         <div
-          className="fixed inset-0 z-40"
+          className="fixed inset-0 z-30"
           onClick={() => setIsOpen(false)}
         />
       )}
