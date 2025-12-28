@@ -10,7 +10,12 @@ export function PasskeyLogin() {
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
+    console.log("PasskeyLogin mounted. Wallet state:", { isConnected, isConnecting });
+  }, [isConnected, isConnecting]);
+
+  useEffect(() => {
     if (isConnected) {
+      console.log("Wallet connected! Redirecting to /wallet");
       setLocation("/wallet");
     }
   }, [isConnected, setLocation]);
@@ -19,10 +24,12 @@ export function PasskeyLogin() {
     setError(null);
     try {
       console.log("Starting passkey authentication...");
-      await connect();
-      console.log("Passkey authentication successful");
+      console.log("Connect function:", typeof connect);
+      const result = await connect();
+      console.log("Passkey authentication successful. Result:", result);
     } catch (err: any) {
       console.error("Connection failed:", err);
+      console.error("Error stack:", err?.stack);
       const errorMsg = err?.message || err?.toString() || "Authentication failed. Please try again.";
       setError(errorMsg);
     }
