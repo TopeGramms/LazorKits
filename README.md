@@ -170,10 +170,17 @@ This is the **single source of truth** — change it here and everything else pi
 
 ### Important: Paymaster Service
 
-The default paymaster URL (`https://lazorkit-paymaster.onrender.com`) is hosted on Render's free tier and may go offline or have CORS issues.
+The default paymaster URL (`https://lazorkit-paymaster.onrender.com`) is hosted on Render's free tier and may go offline or have suspension issues.
 
-**For production:**
-- Deploy your own paymaster instance (see [LazorKit Paymaster](https://github.com/lazorkit/paymaster))
+### Important: Paymaster Service
+
+> [!NOTE]
+> **Paymaster Note**  
+> Gasless transactions require a funded paymaster. At the time of submission, I do not currently have SOL available to run a dedicated paymaster, so gas sponsorship is documented and optional. Passkey authentication and smart wallet creation work independently and are fully functional.
+
+To enable gasless transactions, you can:
+- Open `client/src/lib/lazorkit.ts` and uncomment the `paymasterConfig`.
+- Deploy your own paymaster instance (see the `/paymaster` directory).
 - Use a reliable hosting service (Vercel, AWS, etc.) instead of Render free tier
 - Test the paymaster endpoint manually before deploying
 
@@ -184,7 +191,7 @@ Access to fetch at 'https://lazorkit-paymaster.onrender.com/' has been blocked b
 
 This means the paymaster is either offline or not configured for CORS. Either:
 1. Wait for the service to come back online (if using the demo paymaster)
-2. Deploy your own paymaster with proper CORS headers
+2. Deploy your own paymaster with proper CORS headers (use the included `/paymaster` code)
 3. Check if the paymaster is running: `curl https://lazorkit-paymaster.onrender.com/`
 
 ### Using in Next.js

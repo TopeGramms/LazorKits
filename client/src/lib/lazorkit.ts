@@ -13,7 +13,7 @@ export type LazorkitConfig = {
   /**
    * Paymaster configuration for sponsoring (gasless) transactions.
    */
-  paymasterConfig: {
+  paymasterConfig?: {
     paymasterUrl: string;
   };
 };
@@ -27,13 +27,12 @@ export type LazorkitConfig = {
 export const lazorkitConfig: LazorkitConfig = {
   rpcUrl: "https://api.devnet.solana.com",
   portalUrl: "https://portal.lazor.sh",
-  paymasterConfig: {
-    // To enable gasless transactions in production:
-    // 1. Deploy your own paymaster (see https://github.com/lazorkit/paymaster)
-    // 2. Update this URL to your paymaster endpoint
-    // For now, use the LazorKit demo paymaster URL or deploy your own
-    paymasterUrl: "https://lazorkit-paymaster.onrender.com",
-  },
+  // paymasterConfig: {
+  //   // To enable gasless transactions locally:
+  //   // 1. Run the local paymaster (see the /paymaster directory)
+  //   // 2. Uncomment this block and use "http://localhost:3000"
+  //   paymasterUrl: "http://localhost:3000",
+  // },
 };
 
 
