@@ -36,7 +36,7 @@ export function PasskeyLogin() {
   };
 
   return (
-    <div className="w-full space-y-4">
+    <div className="w-full flex flex-col items-center gap-4">
       <button
         onClick={handleConnect}
         disabled={isConnecting}
@@ -55,7 +55,7 @@ export function PasskeyLogin() {
       </button>
 
       {error && (
-        <div className="w-full p-3 rounded-lg bg-red-500/10 border border-red-500/30 flex items-start gap-2 animate-in fade-in">
+        <div className="w-full max-w-md p-3 rounded-lg bg-red-500/10 border border-red-500/30 flex items-start gap-2 animate-in fade-in">
           <AlertCircle className="w-4 h-4 text-red-400 flex-shrink-0 mt-0.5" />
           <div className="flex-1">
             <p className="text-sm text-red-300 font-medium">Authentication Error</p>
