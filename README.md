@@ -168,6 +168,25 @@ export const lazorkitConfig: LazorkitConfig = {
 
 This is the **single source of truth** — change it here and everything else picks it up.
 
+### Important: Paymaster Service
+
+The default paymaster URL (`https://lazorkit-paymaster.onrender.com`) is hosted on Render's free tier and may go offline or have CORS issues.
+
+**For production:**
+- Deploy your own paymaster instance (see [LazorKit Paymaster](https://github.com/lazorkit/paymaster))
+- Use a reliable hosting service (Vercel, AWS, etc.) instead of Render free tier
+- Test the paymaster endpoint manually before deploying
+
+**If you get CORS errors:**
+```
+Access to fetch at 'https://lazorkit-paymaster.onrender.com/' has been blocked by CORS policy
+```
+
+This means the paymaster is either offline or not configured for CORS. Either:
+1. Wait for the service to come back online (if using the demo paymaster)
+2. Deploy your own paymaster with proper CORS headers
+3. Check if the paymaster is running: `curl https://lazorkit-paymaster.onrender.com/`
+
 ### Using in Next.js
 
 1. Move `lib/lazorkit.ts` to `app/lib/lazorkit.ts` (or `src/lib/`)
