@@ -2,6 +2,7 @@ import { Switch, Route } from "wouter";
 import { QueryClientProvider } from "@tanstack/react-query";
 import { queryClient } from "./lib/queryClient";
 import { LazorkitProvider } from "@lazorkit/wallet";
+import { Analytics } from "@vercel/analytics/react";
 import { Toaster } from "@/components/ui/toaster";
 import { Layout } from "@/components/layout";
 import Home from "@/pages/home";
@@ -32,6 +33,7 @@ function App() {
           <Router />
         </Layout>
         <Toaster />
+        <Analytics />
       </LazorkitProvider>
     </QueryClientProvider>
   );
