@@ -39,7 +39,7 @@ if (PAYER_SECRET) {
 app.get('/health', (req, res) => {
   res.json({
     status: 'ok',
-    paymaster: 'LazorKit Demo Paymaster',
+    paymaster: 'LazorKit Starter Paymaster',
     network: RPC_URL,
   });
 });
